@@ -7,7 +7,7 @@ from model import VAE
 
 LEARNING_RATE = 0.0005
 BATCH_SIZE = 64
-EPOCHS = 150
+EPOCHS = 50
 
 data_path = 'data/train/np/'
 
@@ -25,10 +25,10 @@ def load_data(path):
 if __name__ == "__main__":
     x_train = load_data(data_path)
     vae = VAE(
-        input_shape=(256, 64, 1),
+        input_shape=(1024, 128, 1), # input shape decreased for faster processing
         conv_filters=(512, 256, 128, 64, 32),
-        conv_kernels=(3, 3, 3, 3, 3),
-        conv_strides=(2, 2, 2, 2, (2, 1)),
+        conv_kernels=(5, 5, 3, 3, 3),
+        conv_strides=((4, 4), (4, 2), (2, 2), (2, 2), (2, 1)),
         latent_space_dim=128
     )
     vae.summary()

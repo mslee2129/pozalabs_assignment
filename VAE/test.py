@@ -9,8 +9,7 @@ from utils import MelToAudio
 
 PATH = 'data/train/np/'
 HOP_LENGTH = 256
-SAVE_DIR_ORIGINAL = "samples/original/"
-SAVE_DIR_GENERATED = "samples/generated/"
+SAVE_DIR_GENERATED = "generated/vae/"
 
 
 def load_data(path):
@@ -63,4 +62,3 @@ if __name__ == "__main__":
 
     # save audio signals
     save_signals(signals, SAVE_DIR_GENERATED)
-    save_signals(original_signals, SAVE_DIR_ORIGINAL)
