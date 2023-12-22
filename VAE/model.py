@@ -16,8 +16,7 @@ tf.compat.v1.disable_eager_execution()
 
 class VAE:
     """
-    VAE represents a Deep Convolutional variational autoencoder architecture
-    with mirrored encoder and decoder components.
+    Implements VAE class
     """
 
     def __init__(self,
@@ -237,25 +236,11 @@ def _calculate_reconstruction_loss(y_target, y_predicted):
 
 
 def _calculate_kl_loss(model):
-    # wrap `_calculate_kl_loss` such that it takes the model as an argument,
-    # returns a function which can take arbitrary number of arguments
-    # (for compatibility with `metrics` and utility in the loss function)
-    # and returns the kl loss
     def _calculate_kl_loss(*args):
         kl_loss = -0.5 * K.sum(1 + model.log_variance - K.square(model.mu) -
                                K.exp(model.log_variance), axis=1)
         return kl_loss
     return _calculate_kl_loss
-
-if __name__ == "__main__":
-    autoencoder = VAE(
-        input_shape=(28, 28, 1),
-        conv_filters=(32, 64, 64, 64),
-        conv_kernels=(3, 3, 3, 3),
-        conv_strides=(1, 2, 2, 1),
-        latent_space_dim=2
-    )
-    autoencoder.summary()
 
 
 

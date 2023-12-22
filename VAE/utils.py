@@ -1,7 +1,9 @@
 import librosa
 
 class MelToAudio:
-    
+    """
+    Class to convert back to audio
+    """
     def __init__(self, vae, hop_length):
         self.vae = vae
         self.hop_length = hop_length

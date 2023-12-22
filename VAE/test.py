@@ -11,7 +11,7 @@ PATH = 'data/train/np/'
 HOP_LENGTH = 256
 SAVE_DIR_GENERATED = "generated/vae/"
 
-
+# Helper to generate new samples
 def load_data(path):
     x_test = []
     for root, _, file_names in os.walk(path):

@@ -11,7 +11,7 @@ EPOCHS = 50
 
 data_path = 'data/train/np/'
 
-def load_data(path):
+def load_data(path): # load data
     x_train = []
     for root, _, file_names in os.walk(path):
         for file_name in file_names:
@@ -22,7 +22,7 @@ def load_data(path):
     x_train = x_train[..., np.newaxis]
     return x_train
 
-if __name__ == "__main__":
+if __name__ == "__main__": # run to train
     x_train = load_data(data_path)
     vae = VAE(
         input_shape=(1024, 128, 1), # input shape decreased for faster processing
