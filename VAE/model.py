@@ -51,8 +51,8 @@ class VAE:
         optimizer = Adam(learning_rate=learning_rate)
         self.model.compile(optimizer=optimizer,
                            loss=self._calculate_combined_loss,
-                           metrics=[_calculate_reconstruction_loss,
-                                    _calculate_kl_loss(self)])
+                           metrics=[calculate_reconstruction_loss,
+                                    calculate_kl_loss(self)])
 
     def train(self, x_train, batch_size, num_epochs):
         self.model.fit(x_train,
@@ -85,8 +85,8 @@ class VAE:
         return autoencoder
 
     def _calculate_combined_loss(self, y_target, y_predicted):
-        reconstruction_loss = _calculate_reconstruction_loss(y_target, y_predicted)
-        kl_loss = _calculate_kl_loss(self)()
+        reconstruction_loss = calculate_reconstruction_loss(y_target, y_predicted)
+        kl_loss = calculate_kl_loss(self)()
         combined_loss = self.reconstruction_loss_weight * reconstruction_loss\
                                                          + kl_loss
         return combined_loss
@@ -142,8 +142,7 @@ class VAE:
 
     def _add_conv_transpose_layers(self, x):
         """Add conv transpose blocks."""
-        # loop through all the conv layers in reverse order and stop at the
-        # first layer
+        # loop through all the conv layers in reverse order and stop at the first layer
         for layer_index in reversed(range(1, self._num_conv_layers)):
             x = self._add_conv_transpose_layer(layer_index, x)
         return x
@@ -229,13 +228,13 @@ class VAE:
                    name="encoder_output")([self.mu, self.log_variance])
         return x
 
-def _calculate_reconstruction_loss(y_target, y_predicted):
+def calculate_reconstruction_loss(y_target, y_predicted):
     error = y_target - y_predicted
     reconstruction_loss = K.mean(K.square(error), axis=[1, 2, 3])
     return reconstruction_loss
 
 
-def _calculate_kl_loss(model):
+def calculate_kl_loss(model):
     def _calculate_kl_loss(*args):
         kl_loss = -0.5 * K.sum(1 + model.log_variance - K.square(model.mu) -
                                K.exp(model.log_variance), axis=1)
